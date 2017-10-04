@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="urlHousem8rest">http://housem8-rest.us-east-1.elasticbeanstalk.com:7778/</string>
+</resources>

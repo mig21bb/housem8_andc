@@ -1,0 +1,88 @@
+<resources>
+    <string name="app_name" translatable="false">Housem8</string>
+    <string name="entry_button">Entrar</string>
+    <string name="goLogIn">Log In</string>
+    <string name="title_activity_login">Sign in</string>
+
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="housem8_logo">Housem8 logo</string>
+    <string name="title_activity_navigation">activity_navigation</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="housem8">housem8</string>
+    <string name="login">Iniciar sesi\u00f3n</string>
+    <string name="logout">Cerrar sesi\u00f3n</string>
+    <string name="house">Mi casa</string>
+    <string name="mates">Mis compa\u00f1eros</string>
+    <string name="costs">Mis costes</string>
+    <string name="room">Mi habitaci\u00f3n</string>
+    <string name="password">Contrase\u00f1a</string>
+    <string name="email">Correo electr\u00f3nico</string>
+    <string name="singup">Crear usuario</string>
+    <string name="help">Ayuda</string>
+    <string name="about">Sobre Housem8</string>
+    <string name="contact">Contacto</string>
+    <string name="legal">Informaci\u00f3n legal</string>
+    <string name="enter_your_query">B\u00fasqueda</string>
+    <string name="new_user">Nuevo Usuario</string>
+    <string name="dashboard">Mis datos</string>
+    <string name="new_house">Nueva Casa</string>
+    <string name="new_cost">Nuevo gasto</string>
+    <string name="new_mate">Nuevo compa\u00f1ero</string>
+    <string name="new_room">Nueva habitaci\u00f3n</string>
+    <string name="country">Pais</string>
+    <string name="city">Ciudad</string>
+    <string name="street">Calle</string>
+    <string name="number">N\u00famero</string>
+    <string name="floor">Planta</string>
+    <string name="apartment">Puerta</string>
+    <string name="cp">C\u00f3digo postal</string>
+    <string name="other">Otras indicaciones</string>
+    <string name="square_meters">Metros cuadrados</string>
+    <string name="pais">Pa\u00eds</string>
+    <string name="commerce">Comercio</string>
+    <string name="datetime">Fecha y hora</string>
+    <string name="period">Periodicidad</string>
+    <string name="description">Descripcion</string>
+    <string name="amount">Importe</string>
+    <string name="coin">\u20ac</string>
+    <string name="save">Guardar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="incorrect_number">N\u00famero Incorrecto</string>
+    <string name="occasional">Ocasional</string>
+    <string name="month01">Enero</string>
+    <string name="month02">Febrero</string>
+    <string name="month03">Marzo</string>
+    <string name="month04">Abril</string>
+    <string name="month05">Mayo</string>
+    <string name="month06">Junio</string>
+    <string name="month07">Julio</string>
+    <string name="month08">Agosto</string>
+    <string name="month09">Septiembre</string>
+    <string name="month10">Octubre</string>
+    <string name="month11">Noviembre</string>
+    <string name="month12">Diciembre</string>
+    <string name="see_all">Ver todos</string>
+    <string name="rooms">Habitaciones</string>
+    <string name="move">Mudarse aqu\u00ed</string>
+    <string name="edit">Modificar</string>
+    <string name="remove">Eliminar</string>
+
+
+
+</resources>
