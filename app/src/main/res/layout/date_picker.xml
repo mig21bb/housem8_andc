@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="tk.housem8.activity_navigation"
+    style="@style/Base.AlertDialog.AppCompat.Light">
+    <!--tools:showIn="@layout/activity_scrolling"-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <DatePicker
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/datePicker"
+            android:layout_gravity="center_horizontal"
+            android:datePickerMode="calendar"
+            android:spinnersShown="true"
+            android:calendarViewShown="true" />
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="@android:string/ok"
+            android:id="@+id/button5"
+            style="@android:style/Widget.Holo.ActionButton"
+            android:onClick="sendDate" />
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

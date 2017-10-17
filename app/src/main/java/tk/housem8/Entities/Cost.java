@@ -1,6 +1,15 @@
 package tk.housem8.Entities;
 
+import android.app.Application;
+import android.content.Context;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import tk.housem8.R;
 
 /**
  * Created by Administrador on 26/09/2017.
@@ -11,21 +20,22 @@ public class Cost {
     private Integer id;
     private String description;
     private Integer period;
-    private Date datetime;
+    private String datetime;
     //
     private Float amount;
-    private Date fechaCreacion;
-    private Date fechaModificacion;
+    private String fechaCreacion;
+    private String fechaModificacion;
     private Date fechaBorrado;
     private boolean activo;
 
-    //private CostFamily costFamily;
+    private String costFamily;
+    private String house;
+    private String mate;
+    private String commerce;
 
-    private House houseId;
+    SimpleDateFormat RESTformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 
-    private Mate mateId;
 
-    private Commerce commerce;
 
     public Integer getId() {
         return id;
@@ -51,12 +61,13 @@ public class Cost {
         this.period = period;
     }
 
-    public Date getDatetime() {
+    public String getDatetime() {
         return datetime;
     }
 
     public void setDatetime(Date datetime) {
-        this.datetime = datetime;
+
+        this.datetime = RESTformat.format(datetime);
     }
 
     public Float getAmount() {
@@ -67,20 +78,24 @@ public class Cost {
         this.amount = amount;
     }
 
-    public Date getFechaCreacion() {
+    public String getFechaCreacion() {
         return fechaCreacion;
     }
 
     public void setFechaCreacion(Date fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
+
+        this.datetime = RESTformat.format(fechaCreacion);
     }
 
-    public Date getFechaModificacion() {
+    public String getFechaModificacion() {
         return fechaModificacion;
     }
 
     public void setFechaModificacion(Date fechaModificacion) {
-        this.fechaModificacion = fechaModificacion;
+
+
+        this.datetime = RESTformat.format(fechaModificacion);
+
     }
 
     public Date getFechaBorrado() {
@@ -99,19 +114,35 @@ public class Cost {
         this.activo = activo;
     }
 
-    public House getHouseId() {
-        return houseId;
+    public String getCostFamily() {
+        return costFamily;
     }
 
-    public void setHouseId(House houseId) {
-        this.houseId = houseId;
+    public void setCostFamily(String url,Integer id) {
+        this.costFamily = url+"costFamilies/"+id;
     }
 
-    public Commerce getCommerce() {
+    public String getHouse() {
+        return house;
+    }
+
+    public void setHouse(String url,Integer id) {
+        this.house =  url+"houses/"+id.toString();
+    }
+
+    public String getMate() {
+        return mate;
+    }
+
+    public void setMate(String url,Integer id) {
+        this.mate =  url+"mates/"+id;
+    }
+
+    public String getCommerce() {
         return commerce;
     }
 
-    public void setCommerce(Commerce commerce) {
-        this.commerce = commerce;
+    public void setCommerce(String url,Integer id) {
+        this.commerce = url+"commerces/"+id;
     }
 }

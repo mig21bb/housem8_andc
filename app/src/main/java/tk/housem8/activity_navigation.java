@@ -1,6 +1,6 @@
 package tk.housem8;
 
-import android.content.Intent;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,6 +17,9 @@ import android.view.MenuItem;
 public class activity_navigation extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private Integer mateId;
+    private Integer houseId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,7 +27,7 @@ public class activity_navigation extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -32,7 +35,7 @@ public class activity_navigation extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });
-
+*/
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -41,6 +44,9 @@ public class activity_navigation extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, new MyDashboard()).commit();
+
     }
 
     @Override
@@ -80,16 +86,18 @@ public class activity_navigation extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        FragmentManager fragmentManager = getFragmentManager();
 
         if (id == R.id.nav_dashboard) {
-            // Handle the camera action
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new MyDashboard()).commit();
         } else if (id == R.id.nav_my_house) {
-            Intent i = new Intent(getApplicationContext(), HouseInfo.class);
-            startActivity(i);
+           fragmentManager.beginTransaction().replace(R.id.content_frame, new MyHouse()).commit();
         } else if (id == R.id.nav_my_room) {
-
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new MyRoom()).commit();
         } else if (id == R.id.nav_my_mate) {
-
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new MyMates()).commit();
+        } else if (id == R.id.nav_my_costs) {
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new MyCosts()).commit();
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {

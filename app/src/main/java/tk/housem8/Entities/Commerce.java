@@ -1,5 +1,8 @@
 package tk.housem8.Entities;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +23,20 @@ public class Commerce {
     private boolean activo;
 
     //private List<Cost> costList;
+
+    public Commerce(JSONObject json) throws JSONException {
+
+        this.id = (Integer) json.get("id");
+        this.name= (String) json.get("name");
+        if(!json.get("coordinates").equals(JSONObject.NULL)) {
+            this.coordinates = (String) json.get("coordinates");
+        }
+        if(!json.get("logo").equals(JSONObject.NULL)) {
+            this.logo = (String) json.get("logo");
+        }
+
+
+    }
 
 
     public Integer getId() {
@@ -86,5 +103,8 @@ public class Commerce {
         this.activo = activo;
     }
 
-
+    @Override
+    public String toString() {
+        return name;
+    }
 }

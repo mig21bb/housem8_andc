@@ -1,6 +1,10 @@
 package tk.housem8.Entities;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Date;
+import java.util.StringTokenizer;
 
 /**
  * Created by Administrador on 26/09/2017.
@@ -25,6 +29,16 @@ public class CostFamily {
         this.fechaCreacion = fechaCreacion;
         this.fechaModificacion = fechaModificacion;
         this.activo = activo;
+    }
+
+    public CostFamily(JSONObject jsonObject) throws JSONException {
+
+        this.id = (Integer) jsonObject.get("id");
+        this.description =(String) jsonObject.get("description");
+        if(!jsonObject.get("period").equals(JSONObject.NULL)) {
+            this.period = (int) jsonObject.get("period");
+        }
+
     }
 
     public Integer getId() {
@@ -89,5 +103,10 @@ public class CostFamily {
 
     public void setActivo(boolean activo) {
         this.activo = activo;
+    }
+
+    @Override
+    public String toString() {
+        return description;
     }
 }

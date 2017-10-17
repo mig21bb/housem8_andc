@@ -26,8 +26,8 @@ public class House {
     private Date fechaCreacion;
     private Date fechaModificacion;
     private Date fechaBorrado;
-    private String activo;
-    private String _links;
+    //private String activo;
+    //private String _links;
     //private List<Cost> costList;
    // private List<Room> roomList;
 
@@ -167,7 +167,7 @@ public class House {
     public void setFechaBorrado(Date fechaBorrado) {
         this.fechaBorrado = fechaBorrado;
     }
-
+/*
     public String getActivo() {
         return activo;
     }
@@ -183,4 +183,5 @@ public class House {
     public void set_links(String _links) {
         this._links = _links;
     }
+    */
 }
