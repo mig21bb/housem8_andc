@@ -379,7 +379,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                     }
                     conexion.disconnect();
-                    if(user!= null) {
+                    if(user.getId() != null) {
                         url = new URL(urlText + "houses/search/findByMate?mateId=" + user.getId());
                         conexion = (HttpURLConnection) url.openConnection();
                         conexion.setRequestProperty("Cookie", cookieManager.getCookieStore().getCookies().get(0).toString() + ";");
@@ -390,6 +390,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             edit.putString("house_id", myHome.getId().toString());
                         }
                     }
+
                     edit.commit();
                 }
 

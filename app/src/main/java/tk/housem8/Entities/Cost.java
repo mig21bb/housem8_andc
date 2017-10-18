@@ -33,7 +33,8 @@ public class Cost {
     private String mate;
     private String commerce;
 
-    SimpleDateFormat RESTformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+
+    private transient SimpleDateFormat RESTformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 
 
 
@@ -84,7 +85,7 @@ public class Cost {
 
     public void setFechaCreacion(Date fechaCreacion) {
 
-        this.datetime = RESTformat.format(fechaCreacion);
+        this.fechaCreacion = RESTformat.format(fechaCreacion);
     }
 
     public String getFechaModificacion() {
@@ -94,7 +95,7 @@ public class Cost {
     public void setFechaModificacion(Date fechaModificacion) {
 
 
-        this.datetime = RESTformat.format(fechaModificacion);
+        this.fechaModificacion = RESTformat.format(fechaModificacion);
 
     }
 

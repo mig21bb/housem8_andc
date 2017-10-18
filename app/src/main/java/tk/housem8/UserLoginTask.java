@@ -21,6 +21,7 @@ import java.net.PasswordAuthentication;
 import java.net.URL;
 import java.security.MessageDigest;
 
+import tk.housem8.Entities.House;
 import tk.housem8.Entities.Mate;
 
 /**
@@ -84,14 +85,28 @@ import tk.housem8.Entities.Mate;
                     conexion.setRequestProperty("Cookie", cookieManager.getCookieStore().getCookies().get(0).toString()+";");
                     //conexion.setUseCaches(false);
                     conexion.connect();
+                    Mate user = new Mate();
                     if(conexion.getResponseCode()==200){
-                        Mate user = (Mate) responseToObject(conexion.getInputStream());
+                        user = (Mate) responseToObject(conexion.getInputStream(),"tk.housem8.Entities.Mate");
                         System.out.println("user_id ="+user.getId());
                         edit.putString("user_id", user.getId().toString());
                     }
                     if(cookieManager.getCookieStore().getCookies().size()>0) {
                         System.out.println(cookieManager.getCookieStore().getCookies().get(0).toString());
 
+                    }
+
+                    conexion.disconnect();
+                    if(user.getId() != null) {
+                        url = new URL(urlText + "houses/search/findByMate?mateId=" + user.getId());
+                        conexion = (HttpURLConnection) url.openConnection();
+                        conexion.setRequestProperty("Cookie", cookieManager.getCookieStore().getCookies().get(0).toString() + ";");
+                        //conexion.setUseCaches(false);
+                        conexion.connect();
+                        if (conexion.getResponseCode() == 200) {
+                            House myHome = (House) responseToObject(conexion.getInputStream(),"tk.housem8.Entities.House");
+                            edit.putString("house_id", myHome.getId().toString());
+                        }
                     }
                     edit.commit();
                 }
@@ -100,6 +115,8 @@ import tk.housem8.Entities.Mate;
                 e.printStackTrace();
             }catch (IOException ex){
                 ex.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
             }
 
 /*
@@ -132,27 +149,27 @@ import tk.housem8.Entities.Mate;
             this.loginSuccess = loginSuccess;
         }
 
-        public static final Object responseToObject(InputStream input) throws IOException {
+        public static final Object responseToObject(InputStream input, String entityClass) throws IOException, ClassNotFoundException {
 
-        InputStream entrada=input;
+            InputStream entrada=input;
 
-        BufferedReader lector=new BufferedReader(new InputStreamReader(entrada));
+            BufferedReader lector=new BufferedReader(new InputStreamReader(entrada));
 
-        StringBuilder cadena=new StringBuilder();
-        String linea="";
+            StringBuilder cadena=new StringBuilder();
+            String linea="";
 
-        while((linea=lector.readLine())!=null){
-            cadena.append(linea);
+            while((linea=lector.readLine())!=null){
+                cadena.append(linea);
+            }
+            Class<?> eClass = Class.forName(entityClass);
+
+            String cadenaJSON=cadena.toString();
+
+            Gson gson = new Gson();
+            Object obj = gson.fromJson(cadenaJSON, eClass);
+
+
+            return obj;
+
         }
-
-
-        String cadenaJSON=cadena.toString();
-
-        Gson gson = new Gson();
-        Mate user = gson.fromJson(cadenaJSON, Mate.class);
-        System.out.println(user.getId());
-
-        return user;
-
-    }
 }

@@ -2,6 +2,7 @@ package tk.housem8;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -78,8 +79,9 @@ public class MyCosts extends Fragment {
                     actualPeriod = periodArray.get(position);
                     ArrayList<Date> entreFechas = p.getFirstLastDaysOfPeriod(actualPeriod);
                     SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+                    SharedPreferences userDetails = myView.getContext().getSharedPreferences("userdetails", myView.getContext().MODE_PRIVATE);
                     try {
-                        data = new costsData().execute(new URL(getResources().getString(R.string.urlHousem8rest) + "costRests/search/findByMateAndHouse?mateId=1&houseId=1&startDate=" + format.format(entreFechas.get(0)) + "&endDate=" + format.format(entreFechas.get(1)))).get();
+                        data = new costsData().execute(new URL(getResources().getString(R.string.urlHousem8rest) + "costRests/search/findByMateAndHouse?mateId="+userDetails.getString("user_id", "")+"&houseId="+userDetails.getString("house_id", "")+"&startDate=" + format.format(entreFechas.get(0)) + "&endDate=" + format.format(entreFechas.get(1)))).get();
                         if (listadoCostes != null) {
                             listadoCostes.setAdapter(null);
                             listadoCostes.clearChoices();

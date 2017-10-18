@@ -3,6 +3,7 @@ package tk.housem8;
 import android.app.DatePickerDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -28,7 +29,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONStringer;
 
+import java.net.Authenticator;
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.PasswordAuthentication;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -43,6 +49,7 @@ import java.util.logging.SimpleFormatter;
 import tk.housem8.Entities.Commerce;
 import tk.housem8.Entities.Cost;
 import tk.housem8.Entities.CostFamily;
+import tk.housem8.Entities.Mate;
 import tk.housem8.R;
 
 import static android.app.Activity.RESULT_OK;
@@ -137,8 +144,10 @@ public class NewCost extends Fragment {
         SharedPreferences userDetails = myView.getContext().getSharedPreferences("userdetails", myView.getContext().MODE_PRIVATE);
         if(userDetails.contains("user_id") && userDetails.contains("house_id")) {
             String mateId = userDetails.getString("user_id", "");
+            c.setMate(myView.getContext().getResources().getString(R.string.urlHousem8rest), Integer.valueOf(mateId));
             //System.out.println("usermail:"+usermail);
             String houseId = userDetails.getString("house_id", "");
+            c.setHouse(myView.getContext().getResources().getString(R.string.urlHousem8rest),Integer.valueOf(houseId));
         }
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat RESTformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
@@ -175,7 +184,56 @@ public class NewCost extends Fragment {
         dateView.setText(sdf.format(myCalendar.getTime()));
     }
 
+    private class saveCost implements AsyncTask<>{
 
+        private final Context context;
+
+        private saveCost(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        protected Boolean doInBackground(Object[] params) {
+
+            Boolean response = false;
+            try {
+                String urlText = context.getString(R.string.urlHousem8rest);
+                System.out.println(urlText);
+                URL url = new URL(urlText);
+                CookieManager cookieManager = new CookieManager();
+                CookieHandler.setDefault(cookieManager);
+                Authenticator.setDefault(new Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(mEmail, mPassword.toCharArray());
+                    }
+                });
+                HttpURLConnection conexion = (HttpURLConnection) url.openConnection();
+                System.out.println(cookieManager.getCookieStore().getCookies().size());
+                if (cookieManager.getCookieStore().getCookies().size() > 0) {
+                    System.out.println(cookieManager.getCookieStore().getCookies().get(0).toString());
+                }
+
+                conexion.setUseCaches(false);
+                conexion.connect();
+                System.out.println(conexion.getResponseCode());
+                conexion.disconnect();
+                response = true;
+                url = new URL(urlText + "mates/search/findByEmail?email=" + mEmail);
+                conexion = (HttpURLConnection) url.openConnection();
+                conexion.setRequestProperty("Cookie", cookieManager.getCookieStore().getCookies().get(0).toString() + ";");
+                //conexion.setUseCaches(false);
+                conexion.connect();
+
+                if (conexion.getResponseCode() == 200) {
+
+                }
+
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return response;
+        }
+    }
 
 
 

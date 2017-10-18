@@ -1,6 +1,7 @@
 package tk.housem8;
 
 import android.app.Fragment;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
@@ -32,8 +33,9 @@ public class MyHouse extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.my_house,container,false);
+        SharedPreferences userDetails = myView.getContext().getSharedPreferences("userdetails", myView.getContext().MODE_PRIVATE);
         try{
-            new houseData().execute(new URL(getResources().getString(R.string.urlHousem8rest)+"houses/search/findByMate?mateId=1"));
+            new houseData().execute(new URL(getResources().getString(R.string.urlHousem8rest)+"houses/search/findByMate?mateId="+userDetails.getString("user_id", "")));
 
         }catch(Exception e){
             e.printStackTrace();
