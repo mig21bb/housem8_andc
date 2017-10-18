@@ -29,6 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONStringer;
 
+import java.io.DataOutputStream;
 import java.net.Authenticator;
 import java.net.CookieHandler;
 import java.net.CookieManager;
@@ -150,7 +151,6 @@ public class NewCost extends Fragment {
             c.setHouse(myView.getContext().getResources().getString(R.string.urlHousem8rest),Integer.valueOf(houseId));
         }
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat RESTformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
         SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy");
         try {
             c.setFechaCreacion(calendar.getTime());
@@ -161,16 +161,26 @@ public class NewCost extends Fragment {
             //c.setDatetime(calendar.getTime());
             EditText desc = (EditText) myView.findViewById(R.id.description);
             c.setDescription(String.valueOf(desc.getText()));
+            EditText am = (EditText) myView.findViewById(R.id.amount);
+            c.setAmount(Float.valueOf(String.valueOf(am.getText())));
             c.setActivo(true);
             Gson gson = new Gson();
             String json = gson.toJson(c);
+            String[] media = new String[1];
+            media[0]=json;
             System.out.println(json);
+
+            System.out.println(new SaveCostCall(myView.getContext(),media).execute().get());
 
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_frame, new MyCosts()).commit();
         } catch (ParseException e) {
         e.printStackTrace();
-    }
+    } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     private void backToMyCosts(){
@@ -184,48 +194,45 @@ public class NewCost extends Fragment {
         dateView.setText(sdf.format(myCalendar.getTime()));
     }
 
-    private class saveCost implements AsyncTask<>{
+    private class SaveCostCall extends AsyncTask<Void, Void, Boolean> {
 
         private final Context context;
+        private String[] media;
 
-        private saveCost(Context context) {
+        private SaveCostCall(Context context, String[] media) {
             this.context = context;
+            this.media=media;
         }
 
         @Override
-        protected Boolean doInBackground(Object[] params) {
+        protected Boolean doInBackground(Void... params) {
 
             Boolean response = false;
             try {
                 String urlText = context.getString(R.string.urlHousem8rest);
-                System.out.println(urlText);
-                URL url = new URL(urlText);
+                URL url = new URL(urlText + "costs");
                 CookieManager cookieManager = new CookieManager();
                 CookieHandler.setDefault(cookieManager);
-                Authenticator.setDefault(new Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(mEmail, mPassword.toCharArray());
-                    }
-                });
                 HttpURLConnection conexion = (HttpURLConnection) url.openConnection();
-                System.out.println(cookieManager.getCookieStore().getCookies().size());
                 if (cookieManager.getCookieStore().getCookies().size() > 0) {
-                    System.out.println(cookieManager.getCookieStore().getCookies().get(0).toString());
+                    conexion.setRequestProperty("Cookie", cookieManager.getCookieStore().getCookies().get(0).toString() + ";");
                 }
 
                 conexion.setUseCaches(false);
-                conexion.connect();
-                System.out.println(conexion.getResponseCode());
-                conexion.disconnect();
-                response = true;
-                url = new URL(urlText + "mates/search/findByEmail?email=" + mEmail);
-                conexion = (HttpURLConnection) url.openConnection();
-                conexion.setRequestProperty("Cookie", cookieManager.getCookieStore().getCookies().get(0).toString() + ";");
-                //conexion.setUseCaches(false);
+                conexion.setRequestMethod("POST");
+
+                conexion.setRequestProperty("Content-Type", "application/json");
+                DataOutputStream localDataOutputStream = new DataOutputStream(conexion.getOutputStream());
+                for(String s:media) {
+                    localDataOutputStream.writeBytes(s);
+                }
+                localDataOutputStream.flush();
+                localDataOutputStream.close();
+
                 conexion.connect();
 
                 if (conexion.getResponseCode() == 200) {
-
+                    response = true;
                 }
 
             }catch (Exception e){
@@ -233,6 +240,8 @@ public class NewCost extends Fragment {
             }
             return response;
         }
+
+
     }
 
 
